@@ -1,7 +1,3 @@
-[![Total Downloads](https://poser.pugx.org/seeds/craft-entry-explorer/downloads)](https://packagist.org/packages/seeds/craft-entry-explorer)
-[![Latest Stable Version](https://poser.pugx.org/seeds/craft-entry-explorer/v/stable)](https://packagist.org/packages/seeds/craft-entry-explorer)
-[![License](https://poser.pugx.org/seeds/craft-entry-explorer/license)](https://packagist.org/packages/seeds/craft-entry-explorer)
-
 # Craft Entry Explorer
 
 Check the content of the fields have better control and awareness of everything that is being used in the project, this way we can better cover the tests and be safer about possible changes to everything involving the entry (entry, section, fields, blocks, etc.). It is also very useful for redesign/facelift projects.
