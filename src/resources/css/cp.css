@@ -1,0 +1,25 @@
+.status-label {
+    display: inline-block;
+    border-radius: 3px;
+    padding: 2px 4px;
+    color: white;
+    margin-bottom: 4px;
+}
+
+.status-label.red {
+    background: #ca4d44;
+}
+
+.status-label.teal {
+    background: #55a8b3;
+}
+
+*[data-icon="entry-explorer-earth"] {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url("../icons/earth.png");
+    background-size: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+}

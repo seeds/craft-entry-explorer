@@ -1,0 +1,50 @@
+{
+  "name": "seeds/craft-entry-explorer",
+  "description": "Check the content of the fields have better control and awareness of everything that is being used in the project, this way we can better cover the tests and be safer about possible changes to everything involving the entry (entry, section, fields, blocks, etc.). It is also very useful for redesign/facelift projects.",
+  "type": "craft-plugin",
+  "license": "mit",
+  "support": {
+    "email": "info@seeds.no"
+  },
+  "require": {
+    "php": ">=8.0.2",
+    "craftcms/cms": ">=4.4.0"
+  },
+  "require-dev": {
+    "craftcms/ecs": "dev-main",
+    "craftcms/phpstan": "dev-main"
+  },
+  "authors": [
+    {
+      "name": "Alexandre Mota Monteiro",
+      "email": "alexandre.monteiro@seeds.no"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "seeds\\craftentryexplorer\\": "src/"
+    }
+  },
+  "extra": {
+    "handle": "entry-explorer",
+    "name": "Entry Explorer",
+    "developer": "Alexandre Monteiro",
+    "documentationUrl": "",
+    "class": "seeds\\craftentryexplorer\\EntryExplorer"
+  },
+  "scripts": {
+    "check-cs": "ecs check --ansi",
+    "fix-cs": "ecs check --ansi --fix",
+    "phpstan": "phpstan --memory-limit=1G"
+  },
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "php": "8.0.2"
+    },
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true,
+      "craftcms/plugin-installer": true
+    }
+  }
+}

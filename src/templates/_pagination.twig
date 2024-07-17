@@ -1,0 +1,60 @@
+{# RENDER PAGE LINK #}
+{% macro createpageLink(title, linkUrl, isDisabled) %}
+    
+    {% if title == 'Previous Page' %}
+        {% set navClass = 'prev-page' %}
+        {% set label = null %}
+    {% elseif title == 'Next Page' %}
+        {% set navClass = 'next-page' %}
+        {% set label = null %}  
+    {% else %}
+        {% set navClass = null %}
+        {% set label = title %}
+    {% endif %}
+
+    {% if isDisabled %}
+        <a class="page-link {{ navClass }} disabled" disabled="disabled" title="{{ title }}">{{ label }}</a>
+    {% else %}
+        <a class="page-link {{ navClass }}" href="{{ linkUrl ?? '#' }}" title="{{ title }}">{{ label }}</a>
+    {% endif %}
+    
+{% endmacro %}
+
+<nav class="flex" aria-label="entry pagination">
+    
+    {# Previous Button #}
+    {% set isDisabled = currentPage == 1 ? true : false %}
+    {{ _self.createpageLink('Previous Page', url('entry-explorer?page=' ~ (currentPage - 1) ~ searchParams), isDisabled) }}
+
+    {# First Page Button #}
+    {% set isDisabled = currentPage == 1 ? true : false %}
+    {{ _self.createpageLink('1', url('entry-explorer?page=1' ~ searchParams), isDisabled) }}
+
+    {# Middle Pages with Ellipsis #}
+    {% if currentPage > 4 %}
+        {{ _self.createpageLink('...', null, true) }}
+    {% endif %}
+
+    {% for i in (currentPage - 2)..(currentPage + 2) %}
+        {% if i > 1 and i < totalPages %}
+            {% set isDisabled = i == currentPage ? true : false %}
+            {{ _self.createpageLink(i, url('entry-explorer?page=' ~ i ~ searchParams), isDisabled) }}
+        {% endif %}
+    {% endfor %}
+
+    {% if currentPage < totalPages - 3 %}
+        {{ _self.createpageLink('...', null, true) }}
+    {% endif %}
+
+    {# Last Page Button #}
+    {% if totalPages > 1 %}
+        {% set isDisabled = currentPage == totalPages ? true : false %}
+        {{ _self.createpageLink(totalPages, url('entry-explorer?page=' ~ totalPages ~ searchParams), isDisabled) }}
+    {% endif %}
+
+    {# Next Button #}
+    {% set isDisabled = currentPage == totalPages ? true : false %}
+    {{ _self.createpageLink('Next Page', url('entry-explorer?page=' ~ (currentPage + 1) ~ searchParams), isDisabled) }}
+
+</nav>
+<div class="page-info">Page {{ currentPage }} – {{ totalPages }} of {{ totalEntries }} entries</div>

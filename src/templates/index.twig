@@ -1,0 +1,152 @@
+{% extends "_layouts/cp" %}
+
+{% set title = "Entry Explorer"|t('entry-explorer') %}
+
+{% set perPage = 100 %}
+{% set currentPage = craft.app.request.getParam('page') ?? 1 %}
+{% set searchTerm = craft.app.request.getParam('search') %}
+{% set searchUsedFieldsTerm = craft.app.request.getParam('searchUsedFields') %}
+
+{% set allUsedFields = craft.entryExplorer.getAllUsedFields() %}
+
+{% set entryQuery = craft.entryExplorer.entries(perPage, currentPage, searchUsedFieldsTerm, searchTerm) %}
+
+{% paginate entryQuery as pageInfo, entries %}
+
+{% set totalEntries = entryQuery.count() %}
+{% set totalPages = ceil(totalEntries / perPage) %}
+
+{% if craft.app.version < '5.2.0' %}
+
+    {% do view.registerAssetBundle('seeds\\craftentryexplorer\\assets\\EntryExplorerAsset') %}
+
+    {% set linkLabelTh %}
+        Link
+    {% endset %}
+    {% set linkLabelTd %}
+        <span data-icon="entry-explorer-earth" aria-hidden="true"></span>
+    {% endset %}
+{% else %}
+    {% set linkLabelTh %}
+        <span data-icon="earth-americas" aria-hidden="true"></span>
+        <span class="visually-hidden">Link</span>
+        <div class="spinner"></div>
+    {% endset %}
+    {% set linkLabelTd %}
+        <span data-icon="earth-americas" aria-hidden="true"></span>
+    {% endset %}
+{% endif %}
+
+{% block content %}
+    
+    <div>
+        <form action="{{ url('entry-explorer') }}" method="get">
+            <p>
+                {{ "Search"|t('entry-explorer') }}: <input type=text name="search" id="search" value="{{ searchTerm }}" class="clearable text" autocomplete="off" placeholder="Search" dir="ltr" aria-label="Search">
+                {{ "Used Fields"|t('entry-explorer') }}:
+                <select name="searchUsedFields" id="searchUsedFields" class="field form-control">
+                    <option value="" >{{ "All Used Fields"|t('entry-explorer') }}</option>
+                {% for field in allUsedFields %}
+                    {%set fieldName = field.name ? field.name ~ ' - ' ~ field.handle : field.handle %}
+                    <option value="{{ field.handle }}" {% if field.handle == searchUsedFieldsTerm %}selected{% endif %}>{{ fieldName }}</option>
+                {% endfor %}
+                </select>
+                <input type="submit" value="{{ "Search"|t('entry-explorer') }}" class="btn search" />
+            </p>
+        </form>
+    </div>
+
+    {% if entries|length %}
+        <table class="data fullwidth">
+            <thead>
+                <tr>
+                    <th>{{ "Entry ID"|t('entry-explorer') }}</th>
+                    <th>{{ "Entry Type Handle"|t('entry-explorer') }}</th>
+                    <th>{{ "Entry Type Name"|t('entry-explorer') }}</th>
+                    <th>{{ "Entry Title"|t('entry-explorer') }}</th>
+                    <th>{{ "Section"|t('entry-explorer') }}</th>
+                    <th>{{ "Used Fields"|t('entry-explorer') }}</th>
+                    <th>{{ linkLabelTh }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entry in entries %}
+        
+                {% set section = entry.section %}
+                <tr>
+                    <td>
+                    {% if section.handle ?? false  %}
+                        <a href="{{ url('entries/' ~ section.handle ~ '/' ~ entry.id ~ '-' ~ entry.slug) }}">
+                            {{ entry.id }}
+                        </a>
+                    {% else %}
+                        {{ entry.id }}
+                    {% endif %}
+                    </td>
+                    <td>
+                        {{ entry.type }}
+                    </td>
+                    <td>
+                        {{ entry.type.name }}
+                    </td>
+                    <td>
+                        {{ entry.title }}
+                    </td>
+                    <td>
+                        {{ section.name ?? '-' }}
+                    </td>
+                    <td>
+                        {% set fieldColor = (entry.status == 'live' or entry.status == 'pending') ? 'teal' : 'red' %}
+
+                        {% set fields = entry.usedFields|json_decode() %}
+                        {% set fields = fields|keys() %}
+
+                        {% for field in fields %}
+                            <span class="status-label {{ fieldColor }}" alt="{{ entry.status }}">{{ field }}</span>
+                        {% endfor %}
+
+                    </td>
+                    <td>
+                        {% if entry.url %}
+                            <a href="{{ entry.url }}" title="Visit webpage" rel="noopener" target="_blank" aria-label="View">
+                                {{ linkLabelTd }}
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+    {% else %}
+        {{ "No entries found"|t('entry-explorer') }} - <a href="{{ url(craft.app.request.pathInfo) }}">Refresh</a>
+    {% endif %}
+
+    <div id="footer" class="flex flex-justify">
+        <div id="count-container" class="light"><div class="flex pagination">
+            {% set searchParams = '&search=' ~ searchTerm ~ '&searchUsedFields=' ~ searchUsedFieldsTerm ?? '' %}
+            {% include 'entry-explorer/_pagination.twig' with { 'currentPage': currentPage, 'totalPages': totalPages, 'searchParams': searchParams } %}
+        </div>
+    </div>
+    <div id="actions-container" class="flex">
+        <div id="import-plugin-data-container">
+            <form id="import-form" action="" method="post">
+                {{ csrfInput() }}
+                {{ actionInput('entry-explorer/entry-explorer/import-plugin-data') }}
+                <button type="submit" id="import-btn" class="btn" aria-expanded="true">{{ 'Import Plugin Data'|t('craft-entry-explorer') }}</button>
+            </form>
+        </div>
+        <div id="export-csv-container">
+            {% if totalEntries > 0 %}
+            <form id="export-csv-form" action="" method="post">
+                {{ csrfInput() }}
+                {{ actionInput('entry-explorer/entry-explorer/export-csv') }}
+                <input type="hidden" name="searchUsedFields" value="{{ searchUsedFieldsTerm }}" />
+                <input type="hidden" name="search" value="{{ searchTerm }}" />
+                <button type="submit" id="export-btn" class="btn" aria-expanded="true">{{ 'Export to CSV'|t('craft-entry-explorer') }}</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
