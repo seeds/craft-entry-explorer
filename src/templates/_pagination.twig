@@ -20,6 +20,8 @@
     
 {% endmacro %}
 
+{% if totalPages > 0 %}
+
 <nav class="flex" aria-label="entry pagination">
     
     {# Previous Button #}
@@ -58,3 +60,5 @@
 
 </nav>
 <div class="page-info">Page {{ currentPage }} – {{ totalPages }} of {{ totalEntries }} entries</div>
+
+{% endif %}

@@ -1,4 +1,5 @@
 {% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
 
 {% set title = "Entry Explorer"|t('entry-explorer') %}
 
@@ -7,7 +8,12 @@
 {% set searchTerm = craft.app.request.getParam('search') %}
 {% set searchUsedFieldsTerm = craft.app.request.getParam('searchUsedFields') %}
 
-{% set allUsedFields = craft.entryExplorer.getAllUsedFields() %}
+{% set allUsedFields = [{label: "All Used Fields", value: ""}] %}
+
+{% for field in craft.entryExplorer.getAllUsedFields() ?? [] %}
+    {%set fieldName = field.name ? field.name ~ ' - ' ~ field.handle : field.handle %}
+    {% set allUsedFields = allUsedFields|merge([{label: fieldName, value: field.handle}]) %}
+{% endfor %}
 
 {% set entryQuery = craft.entryExplorer.entries(perPage, currentPage, searchUsedFieldsTerm, searchTerm) %}
 
@@ -40,22 +46,38 @@
 {% block content %}
     
     <div>
-        <form action="{{ url('entry-explorer') }}" method="get">
-            <p>
-                {{ "Search"|t('entry-explorer') }}: <input type=text name="search" id="search" value="{{ searchTerm }}" class="clearable text" autocomplete="off" placeholder="Search" dir="ltr" aria-label="Search">
-                {{ "Used Fields"|t('entry-explorer') }}:
-                <select name="searchUsedFields" id="searchUsedFields" class="field form-control">
-                    <option value="" >{{ "All Used Fields"|t('entry-explorer') }}</option>
-                {% for field in allUsedFields %}
-                    {%set fieldName = field.name ? field.name ~ ' - ' ~ field.handle : field.handle %}
-                    <option value="{{ field.handle }}" {% if field.handle == searchUsedFieldsTerm %}selected{% endif %}>{{ fieldName }}</option>
-                {% endfor %}
-                </select>
-                <input type="submit" value="{{ "Search"|t('entry-explorer') }}" class="btn search" />
-            </p>
+        <form action="{{ url('entry-explorer') }}" method="get" class="flex inline-flex">
+            
+            {{ forms.textField({
+                label: "Search"|t('entry-explorer'),
+                id: 'search',
+                name: 'search',
+                value: searchTerm,
+            }) }}
+
+            {{ forms.selectField({
+                label: "Used Fields"|t('entry-explorer'),
+                options: allUsedFields,
+                id: 'searchUsedFields',
+                name: 'searchUsedFields',
+                value: searchUsedFieldsTerm,
+            }) }}
+
+            <div>
+                <div>&nbsp;</div>
+                {{ forms.button({
+                    label: 'Search'|t('entry-explorer'),
+                    name: 'searchButton',
+                    id: 'translateButton',
+                    class: 'btn',
+                    type: 'submit',
+                }) }}
+            </div>
+            
         </form>
     </div>
 
+    <p>
     {% if entries|length %}
         <table class="data fullwidth">
             <thead>
@@ -117,11 +139,10 @@
             {% endfor %}
             </tbody>
         </table>
-
-
     {% else %}
-        {{ "No entries found"|t('entry-explorer') }} - <a href="{{ url(craft.app.request.pathInfo) }}">Refresh</a>
+        {{ "No entries found"|t('entry-explorer') }} - <a href="{{ url(craft.app.request.pathInfo) }}">Refresh the page</a>
     {% endif %}
+    </p>
 
     <div id="footer" class="flex flex-justify">
         <div id="count-container" class="light"><div class="flex pagination">
@@ -134,7 +155,13 @@
             <form id="import-form" action="" method="post">
                 {{ csrfInput() }}
                 {{ actionInput('entry-explorer/entry-explorer/import-plugin-data') }}
-                <button type="submit" id="import-btn" class="btn" aria-expanded="true">{{ 'Import Plugin Data'|t('craft-entry-explorer') }}</button>
+                {{ forms.button({
+                    label: 'Refresh Data'|t('entry-explorer'),
+                    name: 'import-btn',
+                    id: 'import-btn',
+                    class: 'btn',
+                    type: 'submit',
+                }) }}
             </form>
         </div>
         <div id="export-csv-container">
@@ -144,7 +171,13 @@
                 {{ actionInput('entry-explorer/entry-explorer/export-csv') }}
                 <input type="hidden" name="searchUsedFields" value="{{ searchUsedFieldsTerm }}" />
                 <input type="hidden" name="search" value="{{ searchTerm }}" />
-                <button type="submit" id="export-btn" class="btn" aria-expanded="true">{{ 'Export to CSV'|t('craft-entry-explorer') }}</button>
+                {{ forms.button({
+                    label: 'Export to CSV'|t('entry-explorer'),
+                    name: 'export-btn',
+                    id: 'export-btn',
+                    class: 'btn',
+                    type: 'submit',
+                }) }}
             </form>
             {% endif %}
         </div>
