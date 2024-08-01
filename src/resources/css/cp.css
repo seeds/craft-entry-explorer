@@ -23,3 +23,7 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+
+*[data-icon="entry-explorer-earth"]::before {
+    display: none !important;
+}
