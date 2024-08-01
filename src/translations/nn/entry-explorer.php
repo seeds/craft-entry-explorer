@@ -5,6 +5,7 @@
  */
 return [
     'Entry Explorer' => 'Entry Explorer (Norwegian Nynorsk - norsk nynorsk)',
+    'All Used Fields' => 'All Used Fields',
     'Search' => 'Search',
     'Used Fields' => 'Used Fields',
     'Entry ID' => 'Entry ID',

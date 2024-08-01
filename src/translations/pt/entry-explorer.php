@@ -5,6 +5,7 @@
  */
 return [
     'Entry Explorer' => 'Explorador de Entradas',
+    'All Used Fields' => 'Todos os Campos Utilizados',
     'Search' => 'Pesquisar',
     'Used Fields' => 'Campos Utilizados',
     'Entry ID' => 'ID da Entrada',

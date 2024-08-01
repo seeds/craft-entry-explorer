@@ -8,7 +8,7 @@
 {% set searchTerm = craft.app.request.getParam('search') %}
 {% set searchUsedFieldsTerm = craft.app.request.getParam('searchUsedFields') %}
 
-{% set allUsedFields = [{label: "All Used Fields", value: ""}] %}
+{% set allUsedFields = [{label: "All Used Fields"|t('entry-explorer'), value: ""}] %}
 
 {% for field in craft.entryExplorer.getAllUsedFields() ?? [] %}
     {%set fieldName = field.name ? field.name ~ ' - ' ~ field.handle : field.handle %}
