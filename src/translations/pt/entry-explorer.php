@@ -4,5 +4,15 @@
  * Entry Explorer Portuguese Translation
  */
 return [
-    'Entry Explorer' => 'Entry Explorer (Portuguese - português)',
+    'Entry Explorer' => 'Explorador de Entradas',
+    'Search' => 'Pesquisar',
+    'Used Fields' => 'Campos Utilizados',
+    'Entry ID' => 'ID da Entrada',
+    'Entry Type Handle' => 'Identificador',
+    'Entry Type Name' => 'Tipo de Entrada',
+    'Entry Title' => 'Entrada',
+    'Section' => 'Seção',
+    'No entries found' => 'Não foram encontradas entradas',
+    'Refresh Data' => 'Atualizar dados',
+    'Export to CSV' => 'Exportar para CSV',
 ];
