@@ -59,6 +59,6 @@
     {{ _self.createpageLink('Next Page', url('entry-explorer?page=' ~ (currentPage + 1) ~ searchParams), isDisabled) }}
 
 </nav>
-<div class="page-info">Page {{ currentPage }} – {{ totalPages }} of {{ totalEntries }} entries</div>
+<div class="page-info">{{ "Page {currentPage} - {totalPages} of {totalEntries} entries"|t('entry-explorer', { 'currentPage': currentPage, 'totalPages': totalPages, 'totalEntries': totalEntries }) }}</div>
 
 {% endif %}

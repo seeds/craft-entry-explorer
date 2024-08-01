@@ -16,4 +16,5 @@ return [
     'No entries found' => 'No entries found',
     'Refresh Data' => 'Refresh Data',
     'Export to CSV' => 'Export to CSV',
+    'Page {currentPage} - {totalPages} of {totalEntries} entries' => 'Page {currentPage} - {totalPages} of {totalEntries} entries',
 ];
