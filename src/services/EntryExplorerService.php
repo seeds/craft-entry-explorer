@@ -80,6 +80,7 @@ class EntryExplorerService extends Component
             ->innerJoin(EntryExplorerRecord::tableName(), 'entryId = elements.id')
             ->status(null)
             ->where("usedFields like '%{$searchUsedFieldsTerm}%'")
+            ->orderBy(['ISNULL(sectionId)' => SORT_ASC])
             ->limit($perPage)
             ->offset(($currentPage - 1) * $perPage);
 
