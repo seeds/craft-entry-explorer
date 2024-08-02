@@ -1,6 +1,20 @@
 {% extends "_layouts/cp" %}
 {% import "_includes/forms" as forms %}
 
+{% block actionButton %}
+    <form id="import-form" action="" method="post">
+        {{ csrfInput() }}
+        {{ actionInput('entry-explorer/entry-explorer/import-plugin-data') }}
+        {{ forms.button({
+            label: 'Refresh'|t('entry-explorer'),
+            name: 'import-btn',
+            id: 'import-btn',
+            class: 'btn submit refresh icon',
+            type: 'submit',
+        }) }}
+    </form>
+{% endblock %}
+
 {% set title = "Entry Explorer"|t('entry-explorer') %}
 
 {% set perPage = 100 %}
@@ -151,19 +165,6 @@
         </div>
     </div>
     <div id="actions-container" class="flex">
-        <div id="import-plugin-data-container">
-            <form id="import-form" action="" method="post">
-                {{ csrfInput() }}
-                {{ actionInput('entry-explorer/entry-explorer/import-plugin-data') }}
-                {{ forms.button({
-                    label: 'Refresh Data'|t('entry-explorer'),
-                    name: 'import-btn',
-                    id: 'import-btn',
-                    class: 'btn',
-                    type: 'submit',
-                }) }}
-            </form>
-        </div>
         <div id="export-csv-container">
             {% if totalEntries > 0 %}
             <form id="export-csv-form" action="" method="post">

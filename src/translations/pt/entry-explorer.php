@@ -14,7 +14,7 @@ return [
     'Entry Title' => 'Entrada',
     'Section' => 'Seção',
     'No entries found' => 'Não foram encontradas entradas',
-    'Refresh Data' => 'Atualizar dados',
+    'Refresh' => 'Atualizar',
     'Export to CSV' => 'Exportar para CSV',
     'Page {currentPage} - {totalPages} of {totalEntries} entries' => 'Página {currentPage} - {totalPages} de {totalEntries} entradas',
 ];

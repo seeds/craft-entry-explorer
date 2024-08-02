@@ -14,7 +14,7 @@ return [
     'Entry Title' => 'Entry Title',
     'Section' => 'Section',
     'No entries found' => 'No entries found',
-    'Refresh Data' => 'Refresh Data',
+    'Refresh' => 'Refresh',
     'Export to CSV' => 'Export to CSV',
     'Page {currentPage} - {totalPages} of {totalEntries} entries' => 'Page {currentPage} - {totalPages} of {totalEntries} entries',
 ];
