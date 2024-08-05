@@ -32,3 +32,18 @@ composer require seeds/craft-entry-explorer
 # tell Craft to install the plugin
 ./craft plugin/install entry-explorer
 ```
+
+
+## Usage
+
+#### Refresh button
+When you click the refresh button, the EntryExplorerService will push the ImportPluginDataJob to the queue.
+
+This job will get all the entries from your database and filter out empty fields from the entry's serialized values.
+
+Only the used fields will be shown in the table.
+
+It will also show you the pagination of the entries in the table that you can use to navigate through the entries.
+
+#### Export to CSV button
+Export the entries to a CSV file.
