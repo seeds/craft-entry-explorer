@@ -1,4 +1,4 @@
 # Release Notes for Entry Explorer
 
-## 0.0.8
-- Entries with sections first in the list
+## 0.0.9
+- Added norwegian translation
