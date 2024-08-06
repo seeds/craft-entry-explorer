@@ -1,4 +1,4 @@
 # Release Notes for Entry Explorer
 
-## 0.0.9
-- Added norwegian translation
+## 1.0.0
+- First release
