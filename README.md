@@ -4,7 +4,13 @@
 
 # Craft Entry Explorer
 
-Check the content of the fields have better control and awareness of everything that is being used in the project, this way we can better cover the tests and be safer about possible changes to everything involving the entry (entry, section, fields, blocks, etc.). It is also very useful for redesign/facelift projects.
+The Entry Explorer plugin helps to understand which fields that are in on a per entry basis.
+
+This plugin was developed out of the need to easier perform code due diligence on large and complex projects that has evolved over time.
+
+Initially the plugin will analyse all the content in a Craft CMS installation. When the analysis job is completed it’s possible to filter the report per field to see exactly where it’s in use.
+
+The main goal is to identify abandoned fields that are no longer in use and that can be removed.
 
 ## Requirements
 
